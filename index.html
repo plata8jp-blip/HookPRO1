@@ -1,0 +1,161 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>HookPro - Generador de Ganchos Virales</title>
+  <!-- Tailwind CSS CDN para un diseño moderno -->
+  <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="bg-slate-900 text-slate-100 min-h-screen font-sans flex flex-col items-center justify-between p-4">
+
+  <!-- Header -->
+  <header class="w-full max-w-md text-center py-6">
+    <span class="bg-indigo-500/20 text-indigo-400 text-xs font-semibold px-3 py-1 rounded-full border border-indigo-500/30">
+      Para TikTok, Reels & Shorts
+    </span>
+    <h1 class="text-3xl font-extrabold mt-3 tracking-tight bg-gradient-to-r from-indigo-400 to-pink-500 bg-clip-text text-transparent">
+      HookPro
+    </h1>
+    <p class="text-slate-400 text-sm mt-1">Crea ganchos e ideas de vídeos virales en 3 segundos.</p>
+  </header>
+
+  <!-- Contenedor Principal -->
+  <main class="w-full max-w-md bg-slate-800/80 backdrop-blur-lg border border-slate-700/50 rounded-2xl p-5 shadow-2xl space-y-5">
+    
+    <!-- Selección de Nicho -->
+    <div>
+      <label class="block text-xs font-medium text-slate-300 mb-2 uppercase tracking-wider">
+        1. Selecciona tu Nicho
+      </label>
+      <select id="nicheSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="tecnologia">📱 Tecnología / Gadgets</option>
+        <option value="motor">🚗 Motor / Automoción</option>
+        <option value="fitness">🏋️ Fitness & Nutrición</option>
+        <option value="productividad">⚡ Productividad / Estilo de Vida</option>
+        <option value="negocios">💼 Negocios & Emprendimiento</option>
+      </select>
+    </div>
+
+    <!-- Selección de Tipo de Vídeo -->
+    <div>
+      <label class="block text-xs font-medium text-slate-300 mb-2 uppercase tracking-wider">
+        2. Tipo de Contenido
+      </label>
+      <select id="typeSelect" class="w-full bg-slate-900 border border-slate-700 rounded-xl px-4 py-3 text-slate-200 focus:outline-none focus:ring-2 focus:ring-indigo-500">
+        <option value="error">❌ Error común a evitar</option>
+        <option value="truco">💡 Truco o Secreto poco conocido</option>
+        <option value="polemica">🔥 Opinión / Polémica</option>
+        <option value="recomendacion">⭐ Recomendación rápida</option>
+      </select>
+    </div>
+
+    <!-- Botón de Generar -->
+    <button id="generateBtn" onclick="generateHooks()" class="w-full bg-gradient-to-r from-indigo-600 to-pink-600 hover:from-indigo-500 hover:to-pink-500 text-white font-bold py-3.5 px-4 rounded-xl shadow-lg transition duration-200 flex items-center justify-center gap-2">
+      <span>🚀 Generar Ganchos Virales</span>
+    </button>
+
+    <!-- Contenedor de Resultados -->
+    <div id="resultsContainer" class="hidden space-y-4 pt-3">
+      <hr class="border-slate-700/60" />
+      <h2 class="text-sm font-semibold text-slate-300 uppercase tracking-wider">
+        Ganchos sugeridos:
+      </h2>
+      <div id="hooksList" class="space-y-3"></div>
+
+      <!-- Banner PRO (Monetización) -->
+      <div class="bg-gradient-to-r from-amber-500/10 to-orange-500/10 border border-amber-500/30 rounded-xl p-4 text-center mt-5">
+        <span class="text-amber-400 font-bold text-sm block mb-1">👑 ¿Quieres más alcance?</span>
+        <p class="text-slate-300 text-xs mb-3">
+          Desbloquea +50 ganchos avanzados, generador de títulos para YouTube y estructuras de guion completas.
+        </p>
+        <button onclick="openCheckout()" class="w-full bg-amber-500 hover:bg-amber-400 text-slate-950 font-bold py-2.5 px-4 rounded-lg text-sm transition">
+          Desbloquear Versión PRO por 4,99 €
+        </button>
+      </div>
+    </div>
+
+  </main>
+
+  <!-- Footer -->
+  <footer class="w-full max-w-md text-center py-6 text-slate-500 text-xs">
+    © 2026 HookPro · Creado para Creadores de Contenido
+  </footer>
+
+  <!-- Lógica JavaScript -->
+  <script>
+    const hooksDatabase = {
+      error: [
+        "El mayor error que cometes en {nicho} y que te está haciendo perder dinero/tiempo.",
+        "Deja de hacer esto si te interesa el mundo de {nicho}. Te explico por qué.",
+        "Si sigues haciendo esto en {nicho}, estás cometiendo un fallo grave."
+      ],
+      truco: [
+        "El truco poco conocido sobre {nicho} que casi nadie te cuenta.",
+        "Cómo conseguir mejores resultados en {nicho} en menos de 5 minutos.",
+        "Este secreto de {nicho} cambió por completo la forma en la que hago las cosas."
+      ],
+      polemica: [
+        "Por qué casi todo lo que te han contado sobre {nicho} es completamente falso.",
+        "Nadie en el sector de {nicho} quiere hablar de esto, pero es la verdad.",
+        "Mi opinión impopular sobre {nicho} que va a enfadar a más de uno."
+      ],
+      recomendacion: [
+        "Las 3 cosas imprescindibles que necesitas si te gusta {nicho}.",
+        "Si solo pudieras elegir una cosa para empezar en {nicho}, tendría que ser esta.",
+        "Lo he probado todo en {nicho} y este es el único método que realmente funciona."
+      ]
+    };
+
+    const nicheNames = {
+      tecnologia: "tecnología",
+      motor: "automoción y motor",
+      fitness: "fitness",
+      productividad: "productividad",
+      negocios: "negocios"
+    };
+
+    function generateHooks() {
+      const niche = document.getElementById('nicheSelect').value;
+      const type = document.getElementById('typeSelect').value;
+      const nicheLabel = nicheNames[niche];
+      
+      const templates = hooksDatabase[type];
+      const hooksListDiv = document.getElementById('hooksList');
+      hooksListDiv.innerHTML = '';
+
+      templates.forEach((template, index) => {
+        const text = template.replace("{nicho}", nicheLabel);
+        const card = document.createElement('div');
+        card.className = "bg-slate-900/90 border border-slate-700/80 rounded-xl p-3 text-sm text-slate-200 flex items-center justify-between gap-3";
+        card.innerHTML = `
+          <span>${index + 1}. "${text}"</span>
+          <button onclick="copyText(this, '${text.replace(/'/g, "\\'")}')" class="bg-indigo-600/30 hover:bg-indigo-600 text-indigo-300 hover:text-white px-2.5 py-1.5 rounded-lg text-xs transition flex-shrink-0">
+            Copiar
+          </button>
+        `;
+        hooksListDiv.appendChild(card);
+      });
+
+      document.getElementById('resultsContainer').classList.remove('hidden');
+    }
+
+    function copyText(btn, text) {
+      navigator.clipboard.writeText(text);
+      const originalText = btn.innerText;
+      btn.innerText = "¡Copiado!";
+      btn.classList.add("bg-green-600", "text-white");
+      setTimeout(() => {
+        btn.innerText = originalText;
+        btn.classList.remove("bg-green-600", "text-white");
+      }, 2000);
+    }
+
+    function openCheckout() {
+      // Aquí pondrás el enlace de tu cuenta de Stripe o Gumroad
+      alert("Redirigiendo a la pasarela de pago para activar la versión PRO...");
+      // window.location.href = "TU_ENLACE_DE_STRIPE_O_GUMROAD";
+    }
+  </script>
+</body>
+</html>
